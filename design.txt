@@ -2,3 +2,7 @@
 2.  click and create bar.
 3.  css for object
 4.  object table to hold
+
+
+jQuery UI has the ability to drag around 
+
