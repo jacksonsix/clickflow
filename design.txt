@@ -1,0 +1,4 @@
+1.  drop on grid.   for append drop object.
+2.  click and create bar.
+3.  css for object
+4.  object table to hold
