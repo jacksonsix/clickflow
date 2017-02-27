@@ -2,44 +2,44 @@
 <html>
 <head>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<style>
+[rotate-on-click] {
+  height: 50px;
+  width: 50px;
+  background: black;
+}
+</style>
 <meta charset=utf-8 />
 <title>JS Bin</title>
 </head>
 <body>
   <div rotate-on-click="45"></div>
   <div rotate-on-click="10"></div>
+  
+  <script>
+   function rotate(deg, elem) {
+	  $(elem).css({
+		webkitTransform: 'rotate('+deg+'deg)', 
+		mozTransform: 'rotate('+deg+'deg)', 
+		msTransform: 'rotate('+deg+'deg)', 
+		oTransform: 'rotate('+deg+'deg)', 
+		transform: 'rotate('+deg+'deg)'    
+	  });
+	}
+
+	function addRotateOnClick($elems) {
+	  $elems.each(function(i, elem) {
+		var deg = 0;
+		$(elem).click(function() {
+		  deg+= parseInt($(this).attr('rotate-on-click'), 10);
+		  console.log(deg);
+		  rotate(deg, this);
+		});
+	  });
+	}
+
+	addRotateOnClick($('[rotate-on-click]'));
+  </script>
 </body>
 </html>
-
-//////////css
-
-[rotate-on-click] {
-  height: 50px;
-  width: 50px;
-  background: black;
-}
-
-//////////////js
-function rotate(deg, elem) {
-  $(elem).css({
-    webkitTransform: 'rotate('+deg+'deg)', 
-    mozTransform: 'rotate('+deg+'deg)', 
-    msTransform: 'rotate('+deg+'deg)', 
-    oTransform: 'rotate('+deg+'deg)', 
-    transform: 'rotate('+deg+'deg)'    
-  });
-}
-
-function addRotateOnClick($elems) {
-  $elems.each(function(i, elem) {
-    var deg = 0;
-    $(elem).click(function() {
-      deg+= parseInt($(this).attr('rotate-on-click'), 10);
-      console.log(deg);
-      rotate(deg, this);
-    });
-  });
-}
-
-addRotateOnClick($('[rotate-on-click]'));
 
