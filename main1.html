@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Draggable - Default functionality</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ 
+  <style>
+        .ui-widget-content { width: 50px; height: 50px; padding: 0.5em; }
+		.arrow { width: 50px; height: 50px; padding: 0.5em; } 
+  </style>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+</head>
+<body>
+<div>
+ <button id="btnBox" >Box</button>
+ <button id="btnArrow"> Arrow</button>
+ <input id="currentElement" type="text" />
+</div>
+
+
+<div id="newContainer"></div>
+
+<div id="draggable" class="ui-widget-content">
+  <p>Drag me around</p>
+</div>
+ 
+  <script>
+      var num = 0;
+	  var current ={};
+	  
+	  $( function() {
+		$( "#draggable" ).draggable();
+	  } );
+	  
+	  $("#btnArrow").on('click', function(){
+	    addElement(arrow);
+	  })
+	  
+	  $("#btnBox").on('click', function(){
+	    addElement(box);
+	  })
+	  
+	  
+	  function arrow(){	    
+	     var line = createLine(100, 100, 200, 200);
+		  line.setAttribute("id", 'line0');
+	     document.body.appendChild(line);
+		  $("#" + "line0").draggable();
+	     return document.createTextNode("Hi Arrow"); 
+	  }
+	  
+	  function box(){
+	    return document.createTextNode("Hi Box"); 
+	  }
+	  
+	  function refreshtext(id,name){
+	       var currentElement = document.getElementById(id);
+		   var clone = currentElement.cloneNode(false);
+		   clone.value = name;		  	  
+		   currentElement.parentNode.replaceChild(clone,currentElement);
+		   
+		   //currentElement.parentNode.insertBefore(clone,currentElement.nextSibling);
+		   //currentElement.parentNode.removeChild(currentElement);
+		  
+	  }
+	  
+	  function addElement (f) { 
+		  var newDiv = document.createElement("div");
+		  var name = 'cr' + num++;
+		  newDiv.setAttribute("id", name);
+		  newDiv.setAttribute("class","arrow ui-draggable ui-draggable-handle");
+		  //newDiv.setAttribute("style","position: relative;");
+		 
+		  var newContent = f(); 
+		  newDiv.appendChild(newContent); 
+
+		  var currentDiv = document.getElementById("newContainer");
+		  //document.body.insertBefore(newDiv, currentDiv);
+		   insertAfter(newDiv, currentDiv);		   
+
+		   $("#" + name).draggable();
+		   
+		   refreshtext('currentElement',name);
+	 }
+	 
+	 function insertAfter(newNode, referenceNode) {
+             referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+     }
+	 
+	 
+	 function createLineElement(x, y, length, angle) {
+		var line = document.createElement("div");
+		var styles = 'border: 1px solid black; '
+				   + 'width: ' + length + 'px; '
+				   + 'height: 0px; '
+				   + '-moz-transform: rotate(' + angle + 'rad); '
+				   + '-webkit-transform: rotate(' + angle + 'rad); '
+				   + '-o-transform: rotate(' + angle + 'rad); '  
+				   + '-ms-transform: rotate(' + angle + 'rad); '  
+				   + 'position: absolute; '
+				   + 'top: ' + y + 'px; '
+				   + 'left: ' + x + 'px; ';
+		line.setAttribute('style', styles);  
+		return line;
+	}
+
+	function createLine(x1, y1, x2, y2) {
+		var a = x1 - x2,
+			b = y1 - y2,
+			c = Math.sqrt(a * a + b * b);
+
+		var sx = (x1 + x2) / 2,
+			sy = (y1 + y2) / 2;
+
+		var x = sx - c / 2,
+			y = sy;
+
+		var alpha = Math.PI - Math.atan2(-b, a);
+
+		return createLineElement(x, y, c, alpha);
+	}
+
+	
+	 
+  </script>
+</body>
+</html>
