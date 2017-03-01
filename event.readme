@@ -1,0 +1,46 @@
+add event handler to dynamic create object
+///////////////
+var newTH = document.createElement('th');
+newTH.addEventListener( 'click', function(){
+  // delete the column here
+} );
+
+
+var newTH = document.createElement('th');
+newTH.innerHTML = 'Hello, World!';
+newTH.onclick = function () {
+    this.parentElement.removeChild(this);
+};
+
+
+///////////////////////
+jquery
+
+As of jQuery 1.7 you should use jQuery.fn.on:
+
+$(staticAncestors).on(eventName, dynamicChild, function() {});
+Prior to this, the recommended approach was to use live():
+
+$(selector).live( eventName, function(){} );
+However, live() was deprecated in 1.7 in favour of on(), and completely removed in 1.9. The live() signature:
+
+$(selector).live( eventName, function(){} );
+... can be replaced with the following on() signature:
+
+$(document).on( eventName, selector, function(){} );
+For example, if your page was dynamically creating elements with the class name dosomething you would bind the event to a parent which already exists, often document.
+
+$(document).on('mouseover mouseout', '.dosomething', function(){
+    // what you want to happen when mouseover and mouseout 
+    // occurs on elements that match '.dosomething'
+});
+Any parent that exists at the time the event is bound is fine. For example
+
+$('.buttons').on('click', 'button', function(){
+    // do something here
+});
+would apply to
+
+<div class="buttons">
+    <!-- <button>s that are generated dynamically and added here -->
+</div>
