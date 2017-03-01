@@ -20,22 +20,28 @@ function addElement () {
   document.body.insertBefore(newDiv, currentDiv); 
 }
 
+////////////
+hover , click 
+
+hover over, use css
+<style>
+div:hover {
+             outline: 1px solid blue;
+          }
+</style>
 
 
-<!DOCTYPE html>
-<html>
-<body>
+get the id of the object being clicked.
 
-<p>Click the button to make a BUTTON element.</p>
+	$(document).ready(function() {
+    $("div").hover(function(event) {
+        //alert(event.target.id);
+		console.log(event.target.id);
+    });
+	
+	$("classNameofDiv").click(function() {
+        var contentPanelId = $(this).attr("id");
+       alert(contentPanelId);
+    });
 
-<button onclick="myFunction()">Try it</button>
 
-<script>
-function myFunction() {
-    var btn = document.createElement("BUTTON");
-    document.body.appendChild(btn);
-}
-</script>
-
-</body>
-</html>
