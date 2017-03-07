@@ -9,10 +9,24 @@
   <style>
         .ui-widget-content { width: 50px; height: 50px; padding: 0.5em; }
 		.arrow { width: 50px; height: 50px; padding: 0.5em; } 
+		div:hover {
+                 outline: 1px solid blue;
+            }
+			
+		 .circle {
+		  width: 50px;
+		  height: 50px;
+		  -webkit-border-radius: 25px;
+		  -moz-border-radius: 25px;
+		  border-radius: 25px;
+		  
+        }			
+
+
   </style>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+  <script src="fundations.js"></script>
 </head>
 <body>
 <div>
@@ -27,7 +41,8 @@
 <div id="draggable" class="ui-widget-content">
   <p>Drag me around</p>
 </div>
- 
+
+  
   <script>
       var num = 0;
 	  var current ={};
@@ -45,7 +60,11 @@
 	  })
 	  
 	  
-	  function arrow(){	    
+	  function arrow(element){	  
+	    var arrow = getArrow();
+		arrow.element = element;
+		arrow.name = element.getAttribute("id");
+		
 	     var line = createLine(100, 100, 200, 200);
 		  line.setAttribute("id", 'line0');
 	     document.body.appendChild(line);
@@ -53,7 +72,11 @@
 	     return document.createTextNode("Hi Arrow"); 
 	  }
 	  
-	  function box(){
+	  function box(element){
+	    var node = getNode();
+		node.element = element;
+		node.name = element.getAttribute("id");
+		
 	    return document.createTextNode("Hi Box"); 
 	  }
 	  
@@ -75,7 +98,7 @@
 		  newDiv.setAttribute("class","arrow ui-draggable ui-draggable-handle");
 		  //newDiv.setAttribute("style","position: relative;");
 		 
-		  var newContent = f(); 
+		  var newContent = f(newDiv); 
 		  newDiv.appendChild(newContent); 
 
 		  var currentDiv = document.getElementById("newContainer");
@@ -125,7 +148,17 @@
 	}
 
 	
-	 
+	$(document).ready(function() {
+    $("div").click(function(event) {
+        //alert(event.target.id);
+		console.log(event.target.id);
+    });
+	
+	//$("classNameofDiv").click(function() {
+    //    var contentPanelId = $(this).attr("id");
+    //   alert(contentPanelId);
+    //});
+});
   </script>
 </body>
 </html>
