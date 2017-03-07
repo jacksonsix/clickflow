@@ -7,18 +7,19 @@
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
  
   <style>
-        .ui-widget-content { width: 50px; height: 50px; padding: 0.5em; }
+        
 		.arrow { width: 50px; height: 50px; padding: 0.5em; } 
 		div:hover {
                  outline: 1px solid blue;
             }
 			
 		 .circle {
-		  width: 50px;
-		  height: 50px;
-		  -webkit-border-radius: 25px;
-		  -moz-border-radius: 25px;
-		  border-radius: 25px;
+		 width: 50px;
+      height: 50px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+      border-radius: 25px;
+      background: red;
 		  
         }			
 
@@ -38,21 +39,37 @@
 
 <div id="newContainer"></div>
 
-<div id="draggable" class="ui-widget-content">
-  <p>Drag me around</p>
-</div>
 
   
   <script>
       var num = 0;
 	  var current ={};
+	  var arrowstate ={};
+	  
+	  function getCurrent(target)
+	  {         
+	            var id = target.id;
+				var width = target.offsetWidth;
+				var height = target.offsetHeight;
+				
+				var rect = target.getBoundingClientRect();
+               
+				var x = (rect.left + rect.right) / 2;
+				var y = (rect.top + rect.bottom) / 2;
+
+				return {xcenter: x.toFixed(2), 
+				        ycenter: y.toFixed(2), 
+						id:target.id ,
+						width: width,
+						height: height};
+	  }
 	  
 	  $( function() {
 		$( "#draggable" ).draggable();
 	  } );
 	  
 	  $("#btnArrow").on('click', function(){
-	    addElement(arrow);
+	    ///addElement(arrow);
 	  })
 	  
 	  $("#btnBox").on('click', function(){
@@ -95,9 +112,14 @@
 		  var newDiv = document.createElement("div");
 		  var name = 'cr' + num++;
 		  newDiv.setAttribute("id", name);
-		  newDiv.setAttribute("class","arrow ui-draggable ui-draggable-handle");
-		  //newDiv.setAttribute("style","position: relative;");
-		 
+		  newDiv.setAttribute("class","circle ui-draggable ui-draggable-handle");
+		  // add event listener to element
+		  newDiv.addEventListener( 'click', function(event){
+                event = event || window.event; // IE
+				var target = event.target || event.srcElement; // IE				
+				current = target;
+		  } );
+		  
 		  var newContent = f(newDiv); 
 		  newDiv.appendChild(newContent); 
 
