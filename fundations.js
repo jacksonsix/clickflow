@@ -1,4 +1,14 @@
 
+var KEYCODE_ESC = 27;
+
+$('body').on('keyup',function(e){
+	  
+      if(e.which=== KEYCODE_ESC){
+          console.log('esc');
+      }
+});
+
+
 // operations on data
 
 function center(object){
