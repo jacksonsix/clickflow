@@ -1,0 +1,48 @@
+var js = document.createElement("script");
+
+js.type = "text/javascript";
+js.src = jsFilePath;
+
+document.body.appendChild(js);
+
+var s = new MySuperObject();
+
+Error : MySuperObject is undefined
+Then you reload the page hitting F5. And it works! Confusing...
+
+So what to do about it ?
+
+Well, you can use the hack the author suggests in the link I gave you. In summary, for people in a hurry, he uses en event to run a callback function when the script is loaded. So you can put all the code using the remote library in the callback function. E.G :
+
+function loadScript(url, callback)
+{
+    // adding the script tag to the head as suggested before
+   var head = document.getElementsByTagName('head')[0];
+   var script = document.createElement('script');
+   script.type = 'text/javascript';
+   script.src = url;
+
+   // then bind the event to the callback function 
+   // there are several events for cross browser compatibility
+   script.onreadystatechange = callback;
+   script.onload = callback;
+
+   // fire the loading
+   head.appendChild(script);
+}
+Then you write the code you want to use AFTER the script is loaded in a lambda function :
+
+var myPrettyCode = function() {
+    // here, do what ever you want
+};
+Then you run all that :
+
+loadScript("my_lovely_script.js", myPrettyCode);
+Ok, I got it. But it's a pain to write all this stuff.
+
+Well, in that case, you can use as always the fantastic free jQuery framework, which let you do the very same thing in one line :
+
+$.getScript("my_lovely_script.js", function() {
+    alert("Script loaded and executed.");
+    // here you can use anything you defined in the loaded script
+});
